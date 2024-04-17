@@ -9,11 +9,11 @@ REVIEWS_CHROMA_PATH = "chroma_data"
 loader = CSVLoader(file_path=REVIEWS_CSV_PATH, source_column="review")
 reviews = loader.load()
 
-text_splitter = RecursiveCharacterTextSplitter()
-documents = text_splitter.split_documents(reviews)
+# text_splitter = RecursiveCharacterTextSplitter()
+# documents = text_splitter.split_documents(reviews)
 
 reviews_vector_db = Chroma.from_documents(
-    documents,
+    reviews,
     embedding=OllamaEmbeddings(model="llama2:13b"),
     persist_directory=REVIEWS_CHROMA_PATH,
 )
