@@ -53,7 +53,8 @@ reviews_vector_db = Chroma(
     embedding_function=OllamaEmbeddings(model="llama2:13b"),
 )
 
-reviews_retriever = reviews_vector_db.as_retriever(k=10)
+num_reviews_to_consider = 20
+reviews_retriever = reviews_vector_db.as_retriever(k=num_reviews_to_consider)
 
 review_chain = (
     {"context": reviews_retriever, "question": RunnablePassthrough()}
