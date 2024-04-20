@@ -36,7 +36,7 @@ review_prompt_template = ChatPromptTemplate(
     input_variables=["context", "question"],
     messages=messages,
 )
-chat_model = Ollama(model="llama2:13b")
+chat_model = Ollama(model="llama3")
 output_parser = StrOutputParser()
 
 review_chain = review_prompt_template | chat_model | output_parser
@@ -50,7 +50,7 @@ REVIEWS_CHROMA_PATH = "chroma_data/"
 
 reviews_vector_db = Chroma(
     persist_directory=REVIEWS_CHROMA_PATH,
-    embedding_function=OllamaEmbeddings(model="llama2:13b"),
+    embedding_function=OllamaEmbeddings(model="llama3"),
 )
 
 num_reviews_to_consider = 20

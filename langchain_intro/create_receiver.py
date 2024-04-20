@@ -14,6 +14,6 @@ reviews = loader.load()
 
 reviews_vector_db = Chroma.from_documents(
     reviews,
-    embedding=OllamaEmbeddings(model="llama2:13b"),
+    embedding=OllamaEmbeddings(model="llama3"),
     persist_directory=REVIEWS_CHROMA_PATH,
 )
