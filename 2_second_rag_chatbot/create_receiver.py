@@ -1,21 +1,25 @@
+import os
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-REVIEWS_CHROMA_PATH = "chroma_data"
+CHROMA_PATH = "chroma_data"
+DATA_PATH = "data"
 
-loader = PyPDFLoader("data/Bodner_NF_2022.pdf")
-reviews = loader.load()
+data = []
+for file in os.listdir(DATA_PATH):
+    if file.endswith(".pdf"):
+        pdf_path = os.path.join(DATA_PATH, file)
+        loader = PyPDFLoader(pdf_path)
+        data.extend(loader.load())
 
-# text_splitter = RecursiveCharacterTextSplitter()
-# documents = text_splitter.split_documents(reviews)
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
-documents = text_splitter.split_documents(reviews)
+documents = text_splitter.split_documents(data)
 
 reviews_vector_db = Chroma.from_documents(
-    reviews,
+    data,
     embedding=OllamaEmbeddings(model="llama3"),
-    persist_directory=REVIEWS_CHROMA_PATH,
+    persist_directory=CHROMA_PATH,
 )
